@@ -1,8 +1,4 @@
 {
-  "k4445": {
-    "value": "v4445",
-    "expiry": null
-  },
   "k4446": {
     "value": "v4446",
     "expiry": null
@@ -17,6 +13,13 @@
   },
   "k4449": {
     "value": "v4449",
+    "expiry": null
+  },
+  "channel:chat:history": {
+    "value": [
+      "Hello Vipul 2",
+      "Hello Vipul 2"
+    ],
     "expiry": null
   }
 }
