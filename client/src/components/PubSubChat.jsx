@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import api from "../api";
+
+const API_URL = import.meta.env.VITE_API_URL || "";
 
 export default function PubSubChat() {
   const [messages, setMessages] = useState([]);
@@ -22,7 +24,7 @@ export default function PubSubChat() {
       eventSourceRef.current.close();
     }
 
-    const eventSource = new EventSource(`/subscribe/${channel}`);
+    const eventSource = new EventSource(`${API_URL}/subscribe/${channel}`);
     eventSourceRef.current = eventSource;
 
     eventSource.onopen = () => {
@@ -63,7 +65,7 @@ export default function PubSubChat() {
     if (!input.trim()) return;
 
     try {
-      await axios.post("/publish", {
+      await api.post("/publish", {
         channel,
         message: input,
       });

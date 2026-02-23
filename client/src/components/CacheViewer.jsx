@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api";
 
 export default function CacheViewer({ onRefresh }) {
   const [keys, setKeys] = useState([]);
@@ -9,7 +9,8 @@ export default function CacheViewer({ onRefresh }) {
   const fetchKeys = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("/keys");
+      const res = await api.get("/keys");
+      if (!Array.isArray(res.data)) throw new Error("Invalid response");
       setKeys(res.data);
     } catch (err) {
       console.error("Failed to fetch keys:", err);
@@ -23,7 +24,7 @@ export default function CacheViewer({ onRefresh }) {
 
   const handleDelete = async (key) => {
     try {
-      await axios.delete(`/delete/${encodeURIComponent(key)}`);
+      await api.delete(`/delete/${encodeURIComponent(key)}`);
       fetchKeys();
     } catch (err) {
       console.error("Failed to delete:", err);

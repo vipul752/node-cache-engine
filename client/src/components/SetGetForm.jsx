@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../api";
 
 export default function SetGetForm({ onSet }) {
   const [key, setKey] = useState("");
@@ -15,7 +15,7 @@ export default function SetGetForm({ onSet }) {
     if (!key || !value) return;
 
     try {
-      await axios.post("/set", {
+      await api.post("/set", {
         key,
         value,
         ttl: ttl ? parseInt(ttl) : null,
@@ -38,7 +38,7 @@ export default function SetGetForm({ onSet }) {
     if (!getKey) return;
 
     try {
-      const res = await axios.get(`/get/${encodeURIComponent(getKey)}`);
+      const res = await api.get(`/get/${encodeURIComponent(getKey)}`);
       setResult(res.data.value);
     } catch (err) {
       setResult(null);

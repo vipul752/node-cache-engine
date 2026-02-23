@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api";
 
 export default function MetricsDashboard() {
   const [metrics, setMetrics] = useState({
@@ -11,7 +11,7 @@ export default function MetricsDashboard() {
 
   const fetchMetrics = async () => {
     try {
-      const res = await axios.get("/metrics");
+      const res = await api.get("/metrics");
       setMetrics(res.data);
     } catch (err) {
       console.error("Failed to fetch metrics:", err);

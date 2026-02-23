@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../api";
 
 export default function NamespaceControl({ onDelete }) {
   const [namespace, setNamespace] = useState("");
@@ -11,7 +11,7 @@ export default function NamespaceControl({ onDelete }) {
     if (!namespace) return;
 
     try {
-      await axios.delete(`/namespace/${encodeURIComponent(namespace)}`);
+      await api.delete(`/namespace/${encodeURIComponent(namespace)}`);
       setMessage(`Deleted keys with prefix "${namespace}:"`);
       setSuccess(true);
       setNamespace("");
