@@ -10,6 +10,7 @@ A high-performance, in-memory caching solution built with Node.js. Features LRU 
 - **Disk Persistence** - Cache survives server restarts
 - **Namespace Support** - Group and bulk-delete related keys
 - **Cache-Aside Pattern** - Automatic DB fallback with caching
+- **Pub/Sub Messaging** - Real-time Server-Sent Events with message history
 - **REST API** - Full HTTP interface via Express.js
 
 ## Installation
@@ -116,6 +117,42 @@ GET /data/:id
 { "source": "db", "data": { "name": "Vipul" } }
 ```
 
+### Pub/Sub - Subscribe to Channel
+
+Subscribe to real-time messages using Server-Sent Events (SSE). New subscribers receive full message history.
+
+```http
+GET /subscribe/:channel
+```
+
+**Example:**
+
+```bash
+curl http://localhost:3000/subscribe/chat
+```
+
+**Response (streaming):**
+
+```
+data: "Hello 1"
+
+data: "Hello 2"
+```
+
+### Pub/Sub - Publish Message
+
+Publish a message to all subscribers of a channel.
+
+```http
+POST /publish
+Content-Type: application/json
+
+{
+  "channel": "chat",
+  "message": "Hello everyone!"
+}
+```
+
 ## Architecture
 
 ### LRU Cache (`LRU.js`)
@@ -150,6 +187,14 @@ Automatically saves cache to `data.json` on every write and restores on startup.
 
 Mock database for demonstrating cache-aside pattern with 100ms latency.
 
+### Pub/Sub (`pubsub.js`)
+
+Real-time messaging with Server-Sent Events:
+
+- **Subscribe** - Clients connect via SSE and receive messages
+- **Publish** - Broadcast messages to all channel subscribers
+- **History** - New subscribers receive all past messages
+
 ## Project Structure
 
 ```
@@ -162,6 +207,7 @@ node-cache-engine/
     ├── db.js         # Mock database
     ├── metrics.js    # Performance tracking
     ├── persistence.js # Disk save/load
+    ├── pubsub.js     # Pub/Sub messaging
     └── server.js     # Express REST API
 ```
 
@@ -193,6 +239,21 @@ done
 
 # Check metrics
 curl http://localhost:3000/metrics
+```
+
+### Test Pub/Sub
+
+```bash
+# Terminal 1: Subscribe to channel
+curl http://localhost:3000/subscribe/chat
+
+# Terminal 2: Publish messages
+curl -X POST http://localhost:3000/publish \
+  -H "Content-Type: application/json" \
+  -d '{"channel":"chat","message":"Hello!"}'
+
+# Terminal 3: New subscriber gets history
+curl http://localhost:3000/subscribe/chat
 ```
 
 ## License
