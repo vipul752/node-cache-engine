@@ -6,17 +6,17 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      "/set": "http://localhost:3000",
-      "/get": "http://localhost:3000",
-      "/delete": "http://localhost:3000",
-      "/metrics": "http://localhost:3000",
-      "/namespace": "http://localhost:3000",
+      "/set": "https://node-cache-engine.onrender.com",
+      "/get": "https://node-cache-engine.onrender.com",
+      "/delete": "https://node-cache-engine.onrender.com",
+      "/metrics": "https://node-cache-engine.onrender.com",
+      "/namespace": "https://node-cache-engine.onrender.com",
       "/subscribe": {
-        target: "http://localhost:3000",
+        target: "https://node-cache-engine.onrender.com",
         changeOrigin: true,
       },
-      "/publish": "http://localhost:3000",
-      "/keys": "http://localhost:3000",
+      "/publish": "https://node-cache-engine.onrender.com",
+      "/keys": "https://node-cache-engine.onrender.com",
     },
   },
 });
