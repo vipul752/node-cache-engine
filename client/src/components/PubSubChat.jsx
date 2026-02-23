@@ -42,7 +42,6 @@ export default function PubSubChat() {
     };
 
     eventSource.onerror = (e) => {
-      // Don't disconnect - EventSource will auto-reconnect
       console.log("SSE error, reconnecting...", e);
     };
   };
@@ -75,55 +74,53 @@ export default function PubSubChat() {
   };
 
   return (
-    <div className="bg-slate-800 rounded-lg p-4 mb-6">
-      <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-        <span>💬</span> Pub/Sub Chat
+    <div className="bg-white border border-gray-200 rounded p-4 mb-6">
+      <h2 className="text-sm font-medium text-gray-600 mb-3 flex items-center gap-2">
+        Pub/Sub Chat
         <span
-          className={`ml-2 w-2 h-2 rounded-full ${
-            connected ? "bg-green-500" : "bg-red-500"
+          className={`w-2 h-2 rounded-full ${
+            connected ? "bg-green-500" : "bg-gray-300"
           }`}
         />
       </h2>
 
-      {/* Channel Controls */}
-      <div className="flex gap-2 mb-4">
+      <div className="flex gap-2 mb-3">
         <input
           type="text"
           placeholder="Channel"
           value={channel}
           onChange={(e) => setChannel(e.target.value)}
           disabled={connected}
-          className="flex-1 bg-slate-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50"
+          className="flex-1 border border-gray-300 text-gray-800 px-3 py-2 rounded text-sm focus:outline-none focus:border-gray-400 disabled:bg-gray-100"
         />
         {!connected ? (
           <button
             onClick={connect}
-            className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg font-semibold"
+            className="px-3 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded text-sm"
           >
             Connect
           </button>
         ) : (
           <button
             onClick={disconnect}
-            className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-semibold"
+            className="px-3 py-2 text-red-600 border border-red-200 hover:bg-red-50 rounded text-sm"
           >
             Disconnect
           </button>
         )}
       </div>
 
-      {/* Messages */}
-      <div className="bg-slate-900 rounded-lg p-3 h-64 overflow-y-auto mb-4">
+      <div className="bg-gray-50 border border-gray-100 rounded p-3 h-48 overflow-y-auto mb-3">
         {messages.length === 0 ? (
-          <p className="text-gray-500 text-center mt-20">
+          <p className="text-gray-400 text-center text-sm mt-16">
             {connected ? "Waiting for messages..." : "Connect to start"}
           </p>
         ) : (
-          <div className="space-y-2">
+          <div className="space-y-1">
             {messages.map((msg) => (
-              <div key={msg.id} className="flex gap-2">
-                <span className="text-gray-500 text-xs">{msg.time}</span>
-                <span className="text-white">{msg.text}</span>
+              <div key={msg.id} className="flex gap-2 text-sm">
+                <span className="text-gray-400 text-xs">{msg.time}</span>
+                <span className="text-gray-700">{msg.text}</span>
               </div>
             ))}
             <div ref={messagesEndRef} />
@@ -131,7 +128,6 @@ export default function PubSubChat() {
         )}
       </div>
 
-      {/* Input */}
       <form onSubmit={sendMessage} className="flex gap-2">
         <input
           type="text"
@@ -139,12 +135,12 @@ export default function PubSubChat() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           disabled={!connected}
-          className="flex-1 bg-slate-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-50"
+          className="flex-1 border border-gray-300 text-gray-800 px-3 py-2 rounded text-sm focus:outline-none focus:border-gray-400 disabled:bg-gray-100"
         />
         <button
           type="submit"
           disabled={!connected}
-          className="px-6 py-2 bg-purple-500 hover:bg-purple-600 text-white rounded-lg font-semibold disabled:opacity-50"
+          className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded text-sm disabled:bg-gray-300"
         >
           Send
         </button>

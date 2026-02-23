@@ -4,6 +4,7 @@ import axios from "axios";
 export default function NamespaceControl({ onDelete }) {
   const [namespace, setNamespace] = useState("");
   const [message, setMessage] = useState("");
+  const [success, setSuccess] = useState(true);
 
   const handleDelete = async (e) => {
     e.preventDefault();
@@ -11,19 +12,21 @@ export default function NamespaceControl({ onDelete }) {
 
     try {
       await axios.delete(`/namespace/${encodeURIComponent(namespace)}`);
-      setMessage(`✓ Deleted all keys with prefix "${namespace}:"`);
+      setMessage(`Deleted keys with prefix "${namespace}:"`);
+      setSuccess(true);
       setNamespace("");
       onDelete?.();
       setTimeout(() => setMessage(""), 3000);
     } catch (err) {
-      setMessage("✗ Failed to delete namespace");
+      setMessage("Failed to delete namespace");
+      setSuccess(false);
     }
   };
 
   return (
-    <div className="bg-slate-800 rounded-lg p-4 mb-6">
-      <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-        <span>🗂️</span> Namespace Control
+    <div className="bg-white border border-gray-200 rounded p-4 mb-6">
+      <h2 className="text-sm font-medium text-gray-600 mb-3">
+        Namespace Control
       </h2>
       <form onSubmit={handleDelete} className="flex gap-2">
         <input
@@ -31,25 +34,23 @@ export default function NamespaceControl({ onDelete }) {
           placeholder="Namespace (e.g., user)"
           value={namespace}
           onChange={(e) => setNamespace(e.target.value)}
-          className="flex-1 bg-slate-700 text-white px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+          className="flex-1 border border-gray-300 text-gray-800 px-3 py-2 rounded text-sm focus:outline-none focus:border-gray-400"
         />
         <button
           type="submit"
-          className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-semibold"
+          className="px-3 py-2 text-red-600 border border-red-200 hover:bg-red-50 rounded text-sm"
         >
           Delete All
         </button>
       </form>
       {message && (
         <p
-          className={`mt-2 text-sm ${
-            message.includes("✓") ? "text-green-400" : "text-red-400"
-          }`}
+          className={`mt-2 text-xs ${success ? "text-green-600" : "text-red-600"}`}
         >
           {message}
         </p>
       )}
-      <p className="text-gray-500 text-xs mt-2">
+      <p className="text-gray-400 text-xs mt-2">
         Deletes all keys starting with "namespace:"
       </p>
     </div>

@@ -11,29 +11,20 @@ export default function App() {
   const triggerRefresh = () => setRefreshKey((k) => k + 1);
 
   return (
-    <div className="min-h-screen bg-slate-900 p-6">
+    <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <header className="mb-8">
-          <h1 className="text-3xl font-bold text-white flex items-center gap-3">
-            <span className="text-4xl">⚡</span>
+          <h1 className="text-2xl font-semibold text-gray-800">
             Node Cache Engine
-            <span className="text-sm bg-blue-500 px-2 py-1 rounded ml-2">
-              Dashboard
-            </span>
           </h1>
-          <p className="text-gray-400 mt-2">
-            Real-time cache monitoring and management
+          <p className="text-gray-500 mt-1 text-sm">
+            Cache monitoring and management
           </p>
         </header>
 
-        {/* Metrics */}
         <MetricsDashboard />
-
-        {/* SET/GET Forms */}
         <SetGetForm onSet={triggerRefresh} />
 
-        {/* Cache Viewer + Namespace Control */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2">
             <CacheViewer onRefresh={refreshKey} />
@@ -43,12 +34,10 @@ export default function App() {
           </div>
         </div>
 
-        {/* Pub/Sub Chat */}
         <PubSubChat />
 
-        {/* Footer */}
-        <footer className="text-center text-gray-500 text-sm mt-8">
-          Built with LRU + TTL + Pub/Sub • Node.js + React
+        <footer className="text-center text-gray-400 text-xs mt-8">
+          LRU + TTL + Pub/Sub
         </footer>
       </div>
     </div>

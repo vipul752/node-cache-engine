@@ -35,36 +35,34 @@ export default function CacheViewer({ onRefresh }) {
   );
 
   return (
-    <div className="bg-slate-800 rounded-lg p-4 mb-6">
-      <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-        <span>🗃️</span> Cache Viewer
-      </h2>
+    <div className="bg-white border border-gray-200 rounded p-4 mb-6">
+      <h2 className="text-sm font-medium text-gray-600 mb-3">Cache Viewer</h2>
 
       <input
         type="text"
         placeholder="Search keys..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        className="w-full bg-slate-700 text-white px-4 py-2 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full border border-gray-300 text-gray-800 px-3 py-2 rounded mb-3 text-sm focus:outline-none focus:border-gray-400"
       />
 
       <div className="max-h-64 overflow-y-auto">
         {loading ? (
-          <p className="text-gray-400">Loading...</p>
+          <p className="text-gray-400 text-sm">Loading...</p>
         ) : filteredKeys.length === 0 ? (
-          <p className="text-gray-400">No keys found</p>
+          <p className="text-gray-400 text-sm">No keys found</p>
         ) : (
           <div className="space-y-2">
             {filteredKeys.map((item) => (
               <div
                 key={item.key}
-                className="flex items-center justify-between bg-slate-700 p-3 rounded-lg"
+                className="flex items-center justify-between bg-gray-50 border border-gray-100 p-2 rounded"
               >
                 <div className="flex-1 min-w-0">
-                  <div className="text-blue-400 font-mono text-sm truncate">
+                  <div className="text-gray-700 font-mono text-xs truncate">
                     {item.key}
                   </div>
-                  <div className="text-gray-300 text-sm truncate">
+                  <div className="text-gray-500 text-xs truncate">
                     {typeof item.value === "object"
                       ? JSON.stringify(item.value)
                       : String(item.value)}
@@ -72,7 +70,7 @@ export default function CacheViewer({ onRefresh }) {
                 </div>
                 <button
                   onClick={() => handleDelete(item.key)}
-                  className="ml-3 px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-sm"
+                  className="ml-3 px-2 py-1 text-red-600 hover:bg-red-50 rounded text-xs"
                 >
                   Delete
                 </button>
@@ -84,9 +82,9 @@ export default function CacheViewer({ onRefresh }) {
 
       <button
         onClick={fetchKeys}
-        className="mt-4 px-4 py-2 bg-slate-600 hover:bg-slate-500 text-white rounded-lg text-sm"
+        className="mt-3 px-3 py-1 border border-gray-300 hover:bg-gray-50 text-gray-600 rounded text-sm"
       >
-        🔄 Refresh
+        Refresh
       </button>
     </div>
   );
