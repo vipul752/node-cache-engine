@@ -2,9 +2,11 @@ import express from "express";
 import LRUCache from "./LRU.js";
 import { getFromDB } from "./db.js";
 import PUBSUB from "./pubsub.js";
+import cors from "cors";
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 const cache = new LRUCache(5);
 
